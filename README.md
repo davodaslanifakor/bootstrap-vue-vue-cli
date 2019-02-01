@@ -1,4 +1,4 @@
-# date-picker
+# bootstrap-vue in vue-cli
 
 ## Project setup
 ```

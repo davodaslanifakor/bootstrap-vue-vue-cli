@@ -1,28 +1,56 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <b-alert show>Default Alert</b-alert>
+
+    <b-alert variant="success" show>Success Alert</b-alert>
+
+    <b-alert variant="danger"
+             dismissible
+             :show="showDismissibleAlert"
+             @dismissed="showDismissibleAlert=false">
+      Dismissible Alert!
+    </b-alert>
+
+    <b-alert :show="dismissCountDown"
+             dismissible
+             variant="warning"
+             @dismissed="dismissCountDown=0"
+             @dismiss-count-down="countDownChanged">
+      <p>This alert will dismiss after {{dismissCountDown}} seconds...</p>
+      <b-progress variant="warning"
+                  :max="dismissSecs"
+                  :value="dismissCountDown"
+                  height="4px">
+      </b-progress>
+    </b-alert>
+
+    <b-btn @click="showAlert" variant="info" class="m-1">
+      Show alert with count-down timer
+    </b-btn>
+    <b-btn @click="showDismissibleAlert=true" variant="info" class="m-1">
+      Show dismissible alert ({{showDismissibleAlert?'visible':'hidden'}})
+    </b-btn>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
-  name: 'app',
-  components: {
-    HelloWorld
+  data () {
+    return {
+      dismissSecs: 10,
+      dismissCountDown: 0,
+      showDismissibleAlert: false
+    }
+  },
+  methods: {
+    countDownChanged (dismissCountDown) {
+      this.dismissCountDown = dismissCountDown
+    },
+    showAlert () {
+      this.dismissCountDown = this.dismissSecs
+    }
   }
 }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+<!-- alert-1.vue -->
